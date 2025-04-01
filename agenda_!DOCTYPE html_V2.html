@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda de Citas Médicas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e3f2fd;
+            color: #0277bd;
+            text-align: center;
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #81d4fa;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #0288d1;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0277bd;
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #81d4fa;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #0288d1;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Agendar Cita Médica</h2>
+        <input type="text" id="nombre" placeholder="Nombre" required>
+        <input type="text" id="apellidos" placeholder="Apellidos" required>
+        <label for="fechaNacimiento">Fecha de Nacimiento:</label>
+        <input type="date" id="fechaNacimiento" required>
+        <label for="motivo">Motivo de Consulta:</label>
+        <select id="motivo">
+            <option value="Consulta general">Consulta General</option>
+            <option value="Consulta de Angio">Consulta de Angio (venas y arterias)</option>
+            <option value="Otro">Otro (especifique abajo)</option>
+        </select>
+        <input type="text" id="sintoma" placeholder="Describa su síntoma principal" required>
+        <label for="fechaCita">Fecha Solicitada de Consulta:</label>
+        <input type="date" id="fechaCita" required>
+        <select id="horaCita">
+            <option value="16:00">16:00</option>
+            <option value="16:30">16:30</option>
+            <option value="17:00">17:00</option>
+            <option value="17:30">17:30</option>
+            <option value="18:00">18:00</option>
+            <option value="18:30">18:30</option>
+        </select>
+        <select id="tipoCita">
+            <option value="Primera vez">Primera vez</option>
+            <option value="Consecutiva">Consecutiva</option>
+        </select>
+        <label for="modalidad">Modalidad de Consulta:</label>
+        <select id="modalidad">
+            <option value="Video-llamada">Video-llamada</option>
+            <option value="Presencial">Directamente en el consultorio</option>
+        </select>
+        <button onclick="agendarCita()">Agendar Cita</button>
+    </div>
+
+    <div class="container">
+        <h2>Calendario de Citas</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Paciente</th>
+                    <th>Motivo</th>
+                    <th>Modalidad</th>
+                </tr>
+            </thead>
+            <tbody id="tablaCitas"></tbody>
+        </table>
+    </div>
+
+    <script>
+        function agendarCita() {
+            let nombre = document.getElementById('nombre').value;
+            let apellidos = document.getElementById('apellidos').value;
+            let fechaNacimiento = document.getElementById('fechaNacimiento').value;
+            let motivo = document.getElementById('motivo').value;
+            let sintoma = document.getElementById('sintoma').value;
+            let fechaCita = document.getElementById('fechaCita').value;
+            let horaCita = document.getElementById('horaCita').value;
+            let tipoCita = document.getElementById('tipoCita').value;
+            let modalidad = document.getElementById('modalidad').value;
+            
+            if (!nombre || !apellidos || !fechaNacimiento || !fechaCita || !sintoma) {
+                alert("Por favor, complete todos los campos.");
+                return;
+            }
+            
+            let tabla = document.getElementById("tablaCitas");
+            let fila = tabla.insertRow();
+            fila.insertCell(0).innerText = fechaCita;
+            fila.insertCell(1).innerText = horaCita;
+            fila.insertCell(2).innerText = nombre + " " + apellidos;
+            fila.insertCell(3).innerText = motivo + (motivo === "Otro" ? ": " + sintoma : "");
+            fila.insertCell(4).innerText = modalidad;
+            
+            document.getElementById("nombre").value = "";
+            document.getElementById("apellidos").value = "";
+            document.getElementById("fechaNacimiento").value = "";
+            document.getElementById("motivo").value = "Consulta general";
+            document.getElementById("sintoma").value = "";
+            document.getElementById("fechaCita").value = "";
+            document.getElementById("horaCita").value = "16:00";
+            document.getElementById("tipoCita").value = "Primera vez";
+            document.getElementById("modalidad").value = "Video-llamada";
+        }
+    </script>
+</body>
+</html>
